@@ -18,7 +18,7 @@ class TransOutExport implements FromCollection, WithMapping, WithHeadings, WithT
 
     public function collection()
     {
-        return Transaksi_detail::whereIn('rtype',['O', 'AO'])->get();
+        return Transaksi_detail::whereIn('rtype',['O', 'AO', 'OA'])->get();
     }
 
     public function map($transaksi) : array {

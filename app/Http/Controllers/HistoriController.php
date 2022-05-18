@@ -30,14 +30,12 @@ class HistoriController extends Controller
 
         if ($tipe == 'keluar') {
             $data = Transaksi_detail::where([
-                'rtype' => 'o',
                 'barang_id' => $barang,
             ])
-            ->orWhere([
-                'rtype' => 'oa',
-                'barang_id' => $barang,
-            ])
+            ->whereIn('rtype', ['O', 'OA'])
             ->orderBy('created_at', 'DESC')->get();
+
+            
         }
 
         if ($tipe == 'service') {
@@ -46,6 +44,14 @@ class HistoriController extends Controller
                 'barang_id' => $barang,
                 'status' => 2
             ])
+            ->orderBy('created_at', 'DESC')->get();
+        }
+
+        if($tipe == 'alokasi'){
+            $data = Transaksi_detail::where([
+                'barang_id' => $barang,
+            ])
+            ->where('rtype', 'AL')
             ->orderBy('created_at', 'DESC')->get();
         }
 
@@ -82,10 +88,10 @@ class HistoriController extends Controller
             foreach ($data as $key => $value) {
                 $dt['barang'] = $value->barang->name;
                 $dt['qty'] = $value->qty;
-                $dt['department'] = $value->transaksi->department->kdtk . ' - ' . $value->transaksi->department->name;
+                $dt['department'] = $tipe == 'alokasi' ? $value->transaksi->department->kdtk . ' (' . $value->transaksi->pic . ')' : $value->transaksi->department->kdtk . ' - ' . $value->transaksi->department->name;
                 $dt['masuk'] = $tipe == 'masuk' ? $value->transaksi->created_at->format('Y-m-d') : '';
                 $dt['selesai'] = null;
-                $dt['keluar'] = $tipe == 'keluar' ? $value->transaksi->created_at->format('Y-m-d') : '';
+                $dt['keluar'] = $tipe == 'keluar' || $tipe == 'alokasi' ? $value->transaksi->created_at->format('Y-m-d') : '';
 
                 array_push($r_data, $dt);
             }

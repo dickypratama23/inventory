@@ -72,6 +72,7 @@
           <option value="masuk" {{ $tipe=='masuk' ? 'selected' : '' }}>MASUK</option>
           <option value="keluar" {{ $tipe=='keluar' ? 'selected' : '' }}>KELUAR</option>
           <option value="service" {{ $tipe=='service' ? 'selected' : '' }}>SERVICE</option>
+          <option value="alokasi" {{ $tipe=='alokasi' ? 'selected' : '' }}>ALOKASI</option>
         </select>
       </div>
 

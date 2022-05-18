@@ -56,7 +56,7 @@ class HitungUlangController extends Controller
         //BARANG ALOKASI
         $transaksi_alo = Transaksi_detail::whereYear('created_at', '=', $tahun)
             ->whereMonth('created_at', '=', $bulan)
-            ->where('rtype', 'A')
+            ->where('rtype', 'AL')
             ->groupBy('barang_id')
             ->select('barang_id', DB::raw('SUM(qty) qty'))
             ->get();
